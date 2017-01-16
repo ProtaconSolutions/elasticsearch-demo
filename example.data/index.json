@@ -1,0 +1,10 @@
+{
+    "mappings" : {
+        "bestdevice" : {
+            "properties" : {
+                "value" : { "type" : "long" },
+                "time" : { "type" : "date" }
+            }
+        }
+    }
+}
