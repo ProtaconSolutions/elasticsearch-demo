@@ -1,12 +1,11 @@
 version: "2"
 services:
   elasticsearch:
-    image: "elasticsearch"
+    image: "elasticsearch:5.2"
     ports: 
       - "9200:9200"
-    command: [-E, http.cors.enabled=true, -E, http.cors.allow-origin=*]
   grafana:
-    image: "grafana/grafana"
+    image: "grafana/grafana:4.1.1"
     depends_on:
       - elasticsearch
     ports: 
