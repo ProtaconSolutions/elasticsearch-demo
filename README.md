@@ -6,16 +6,18 @@ docker-compose up
 
 Now elastic runs on `http://localhost:9200` and grafana on `http://localhost:3000`. 
 
-On windows grafana is on hyperv moby image, ip address of docker machine can be found with
+On windows Grafana is on hyperv which ip address can be queried with
 
 ```
 Get-VM | ?{$_.ReplicationMode -ne “Replica”} | Select -ExpandProperty NetworkAdapters | Select VMName, IPAddresses, Status
 ```
 
 # Commands
-Add data to elastic search (windows):
+Add data to Elastic Search (windows):
 ```powershell
-Invoke-RestMethod "http://localhost:9200/data/bestdevice/" -Body (@{ "@value" = (Get-Random -Maximum 1000); "@timestamp" = ([int][double]::Parse((Get-Date -UFormat %s)))} | ConvertTo-Json) -Method Post
+Invoke-RestMethod "http://localhost:9200/data/bestdevice/" `
+    -Body (@{ "@value" = (Get-Random -Maximum 1000); "@timestamp" = ([int][double]::Parse((Get-Date -UFormat %s)))} | ConvertTo-Json) `
+    -Method Post
 ```
 
 # Contributing & issues & questions
