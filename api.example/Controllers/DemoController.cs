@@ -1,15 +1,25 @@
 using System;
+using Data;
 using Microsoft.AspNetCore.Mvc;
+using Nest;
 using Newtonsoft.Json.Linq;
 
 namespace Controllers
 {
+
+    public class Person
+    {
+        public string Id { get; set; }
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
+    }
+
     public class DemoController : Controller
     {
         [HttpGet("v1/alarm")]
-        public Alarm[] Alarm() 
+        public Alarm[] Alarm()
         {
-            return new [] 
+            return new[]
             {
                 new Alarm()
                 {
@@ -23,13 +33,10 @@ namespace Controllers
         [HttpPost("v1/data")]
         public IActionResult Add([FromBody] JObject body)
         {
-            dynamic json = body;
-            
-            Console.WriteLine(body);
+            dynamic json = DeviceData.Crea;
 
-            if(json.DeviceId == null || json.DeviceName == null) {
-                return BadRequest();
-            } 
+
+            ElasticSearch.Create().Index(body, "deviceX");
 
             return Ok();
         }
