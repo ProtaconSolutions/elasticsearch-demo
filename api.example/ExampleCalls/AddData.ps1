@@ -12,4 +12,8 @@ $body = @{
     Value = $Value
 } | ConvertTo-Json
 
-Invoke-RestMethod "http://localhost:5000/v1/data" -Method Post -Body $body -ContentType "application/json"
+$uri = "http://localhost:5000/v1/data"
+
+Invoke-RestMethod $uri -Method Post -Body $body -ContentType "application/json" -ErrorAction Stop
+
+Write-Host "Uri '$uri' with data: $body"

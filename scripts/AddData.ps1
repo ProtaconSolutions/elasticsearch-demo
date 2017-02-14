@@ -1,10 +1,10 @@
 [CmdletBinding()]
-Param($Index = "data", $Device = "A")
+Param($Index = "data", $Device = 1)
 
 $body = @{ 
-    "value" = (Get-Random -Maximum 1000)
-    "time" = [DateTime]::UtcNow.ToString("o")
-    "device" = $Device
+    "Value" = (Get-Random -Minimum 1 -Maximum 255)
+    "TimeStamp" = [DateTime]::UtcNow.ToString("o")
+    "Device" = $Device
 } | ConvertTo-Json -Depth 30
 
 Invoke-RestMethod "http://localhost:9200/$Index/$device/" `

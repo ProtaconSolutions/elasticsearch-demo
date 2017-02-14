@@ -29,11 +29,8 @@ namespace Controllers
                     .FlatMap<string>(
                         data => ElasticSearch.Create().Index(data, "device"))
                     .Match<IActionResult>(
-                        some: r => {
-                            Console.WriteLine(r); 
-                            return Ok();
-                        },
-                        none: e => BadRequest(e)
+                        some: _ => Ok(),
+                        none: error => BadRequest(error)
                     );
         }
     }
