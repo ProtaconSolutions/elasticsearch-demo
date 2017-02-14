@@ -1,6 +1,7 @@
 using System;
 using Nest;
 using Optional;
+using Util;
 
 namespace Data
 {
@@ -16,19 +17,20 @@ namespace Data
             _client = new ElasticClient(settings);
         }
 
-        public Option<string, Exception> Index(object data, string type)
+        public Option<string, ErrorString> Index(object data, string type)
         {
             var result = _client.Index(data, x => x.Type(type));
 
             if (!result.IsValid)
             {
-                return Option.None<string, Exception>(new InvalidOperationException($"Failed to write index: '{result.DebugInformation}'"));
+                return Option.None<string, ErrorString>($"Failed to write index: '{result.DebugInformation}'");
             }
 
-            return $"{_index}:{type}".Some<string, Exception>();
+            return $"{_index}:{type}".Some<string, ErrorString>();
         }
 
-        public static ElasticSearch Create() {
+        public static ElasticSearch Create()
+        {
             return new ElasticSearch();
         }
     }

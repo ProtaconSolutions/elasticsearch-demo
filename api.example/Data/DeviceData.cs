@@ -1,23 +1,25 @@
 using System;
+using Newtonsoft.Json.Linq;
 using Optional;
+using Util;
 
 namespace Data
 {
     public class DeviceData
     {
-        public static Option<dynamic, string> Create(dynamic data)
+        public static Option<JObject, ErrorString> Create(JObject data)
         {
-            if(data.DeviceId == null) 
+            if(data["DeviceId"] == null) 
             {
-                return Option.None<dynamic, string>("Missing 'DeviceId' property.");
+                return Option.None<JObject, ErrorString>("Missing 'DeviceId' property.");
             }
 
-            if(data.DeviceName == null) 
+            if(data["DeviceName"] == null) 
             {
-                return Option.None<dynamic, string>("Missing 'DeviceName' property.");
+                return Option.None<JObject, ErrorString>("Missing 'DeviceName' property.");
             }
 
-            return data.Some<dynamic, Exception>();
+            return data.Some<JObject, ErrorString>();
         }
     }
 }

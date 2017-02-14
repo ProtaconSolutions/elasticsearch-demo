@@ -6,14 +6,6 @@ using Newtonsoft.Json.Linq;
 
 namespace Controllers
 {
-
-    public class Person
-    {
-        public string Id { get; set; }
-        public string Firstname { get; set; }
-        public string Lastname { get; set; }
-    }
-
     public class DemoController : Controller
     {
         [HttpGet("v1/alarm")]
@@ -33,12 +25,14 @@ namespace Controllers
         [HttpPost("v1/data")]
         public IActionResult Add([FromBody] JObject body)
         {
-            dynamic json = DeviceData.Crea;
-
-
-            ElasticSearch.Create().Index(body, "deviceX");
-
-            return Ok();
+            return 
+                DeviceData.Create(body)
+                    .FlatMap<string>(
+                        data => ElasticSearch.Create().Index(data, "deviceX"))
+                    .Match<IActionResult>(
+                        some: _ => Ok(),
+                        none: e => BadRequest(e)
+                    );
         }
     }
 }
