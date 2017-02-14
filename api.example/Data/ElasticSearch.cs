@@ -8,7 +8,7 @@ namespace Data
     public class ElasticSearch
     {
         private ElasticClient _client;
-        private string _index = "data35";
+        private string _index = "data";
 
         private ElasticSearch()
         {
@@ -19,14 +19,14 @@ namespace Data
 
         public Option<string, ErrorString> Index(object data, string type)
         {
-            var result = _client.Index(data, x => x.Type(type));
+            var result = _client.Index(data, x => x.Type(type).Id(Guid.NewGuid()));
 
             if (!result.IsValid)
             {
                 return Option.None<string, ErrorString>($"Failed to write index: '{result.DebugInformation}'");
             }
 
-            return $"{_index}:{type}".Some<string, ErrorString>();
+            return $"{_index}:{type}:{result.Id}".Some<string, ErrorString>();
         }
 
         public static ElasticSearch Create()

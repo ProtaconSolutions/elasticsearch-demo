@@ -1,12 +1,15 @@
 [CmdletBinding()]
 Param(
+    $DeviceId = 123,
+    $DeviceName = "DefaultName",
+    $Value = 33
 )
 
 $body = @{
-    DeviceId  = 123
-    DeviceName = "Testerstation, Tikkakoski."
-    TimeStamp = 1487069547
-    MetaDataTest1 = "Something really meta"
+    DeviceId  = $DeviceId
+    DeviceName = $DeviceName
+    TimeStamp = [DateTimeOffset]::Now.ToUnixTimeMilliSeconds()
+    Value = $Value
 } | ConvertTo-Json
 
 Invoke-RestMethod "http://localhost:5000/v1/data" -Method Post -Body $body -ContentType "application/json"

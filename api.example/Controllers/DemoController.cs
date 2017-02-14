@@ -1,7 +1,6 @@
 using System;
 using Data;
 using Microsoft.AspNetCore.Mvc;
-using Nest;
 using Newtonsoft.Json.Linq;
 
 namespace Controllers
@@ -28,9 +27,12 @@ namespace Controllers
             return 
                 DeviceData.Create(body)
                     .FlatMap<string>(
-                        data => ElasticSearch.Create().Index(data, "deviceX"))
+                        data => ElasticSearch.Create().Index(data, "device"))
                     .Match<IActionResult>(
-                        some: _ => Ok(),
+                        some: r => {
+                            Console.WriteLine(r); 
+                            return Ok();
+                        },
                         none: e => BadRequest(e)
                     );
         }
